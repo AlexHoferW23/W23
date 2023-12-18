@@ -1,0 +1,66 @@
+/foss/designs/W23/src > iic-vlint.sh moving_ea_test.v 
+[INFO] Run iverilog linting on moving_ea_test.v...
+moving_ea_test.v:47: syntax error
+moving_ea_test.v:47: error: Invalid module instantiation
+moving_ea_test.v:48: syntax error
+moving_ea_test.v:48: error: Invalid module instantiation
+moving_ea_test.v:68: syntax error
+moving_ea_test.v:68: error: Incomprehensible for loop.
+moving_ea_test.v:77: syntax error
+moving_ea_test.v:77: error: Incomprehensible for loop.
+moving_ea_test.v:86: syntax error
+moving_ea_test.v:86: error: Incomprehensible for loop.
+moving_ea_test.v:113: syntax error
+moving_ea_test.v:113: error: Incomprehensible for loop.
+[INFO] Run verilator linting on moving_ea_test.v...
+%Warning-DECLFILENAME: moving_ea_test.v:3:8: Filename 'moving_ea_test' does not match MODULE name: 'moving_average_e'
+    3 | module moving_average_e #(
+      |        ^~~~~~~~~~~~~~~~
+                       ... For warning description see https://verilator.org/warn/DECLFILENAME?v=5.009
+                       ... Use "/* verilator lint_off DECLFILENAME */" and lint_on around source to disable this message.
+%Warning-WIDTHEXPAND: moving_ea_test.v:96:64: Operator OR expects 12 bits on the LHS, but LHS's REPLICATE generates 2 bits.
+                                            : ... In instance moving_average_e
+   96 |                     next_sum = {SUM_WIDTH - DATA_IN_LEN{1'b0}} | data_i;
+      |                                                                ^
+%Warning-WIDTHEXPAND: moving_ea_test.v:96:64: Operator OR expects 12 bits on the RHS, but RHS's VARREF 'data_i' generates 10 bits.
+                                            : ... In instance moving_average_e
+   96 |                     next_sum = {SUM_WIDTH - DATA_IN_LEN{1'b0}} | data_i;
+      |                                                                ^
+%Warning-WIDTHTRUNC: moving_ea_test.v:106:47: Bit extraction of array[3:0] requires 2 bit index, not 4 bits.
+                                            : ... In instance moving_average_e
+  106 |                     next_sum = sum + shift_reg[counter_value];
+      |                                               ^
+%Warning-WIDTHEXPAND: moving_ea_test.v:106:36: Operator ADD expects 12 bits on the RHS, but RHS's ARRAYSEL generates 10 bits.
+                                             : ... In instance moving_average_e
+  106 |                     next_sum = sum + shift_reg[counter_value];
+      |                                    ^
+%Warning-WIDTHTRUNC: moving_ea_test.v:116:30: Operator ASSIGN expects 10 bits on the Assign RHS, but Assign RHS's SHIFTR generates 12 bits.
+                                            : ... In instance moving_average_e
+  116 |                 next_avg_sum = sum >> FILTER_POWER;
+      |                              ^
+%Warning-UNUSEDSIGNAL: moving_ea_test.v:8:23: Bits of signal are not used: 'uio_in'[7:5,3:2]
+                                            : ... In instance moving_average_e
+    8 |     input  wire [7:0] uio_in,         
+      |                       ^~~~~~
+%Warning-UNDRIVEN: moving_ea_test.v:9:23: Bits of signal are not driven: 'uio_out'[7:4,0]
+                                        : ... In instance moving_average_e
+    9 |     output wire [7:0] uio_out,        
+      |                       ^~~~~~~
+%Warning-UNUSEDSIGNAL: moving_ea_test.v:11:23: Signal is not used: 'ena'
+                                             : ... In instance moving_average_e
+   11 |     input  wire       ena,            
+      |                       ^~~
+%Warning-UNDRIVEN: moving_ea_test.v:41:30: Signal is not driven: 'data_o'
+                                         : ... In instance moving_average_e
+   41 |     wire [DATA_IN_LEN - 1:0] data_o;
+      |                              ^~~~~~
+%Warning-UNUSEDSIGNAL: moving_ea_test.v:58:9: Signal is not used: 'mov_avg_valid_strobe'
+                                            : ... In instance moving_average_e
+   58 |     reg mov_avg_valid_strobe, next_mov_avg_valid_strobe;
+      |         ^~~~~~~~~~~~~~~~~~~~
+%Warning-UNDRIVEN: moving_ea_test.v:58:31: Signal is not driven: 'next_mov_avg_valid_strobe'
+                                         : ... In instance moving_average_e
+   58 |     reg mov_avg_valid_strobe, next_mov_avg_valid_strobe;
+      |                               ^~~~~~~~~~~~~~~~~~~~~~~~~
+%Error: Exiting due to 12 warning(s)
+[DONE] Bye!
