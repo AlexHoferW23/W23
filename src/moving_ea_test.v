@@ -45,7 +45,7 @@ module moving_average_e #(
             sum <= 0;
             avg_sum <= 0;
             mov_avg_valid_strobe <= 0;
-            for (int i = 0; i < FILTER_SIZE; i++) begin
+            for (int i = 0; i < FILTER_SIZE; i= i+1) begin
                 shift_reg[i] <= 0;
             end
         end else begin
@@ -54,8 +54,10 @@ module moving_average_e #(
             sum <= next_sum;
             avg_sum <= next_avg_sum;
             mov_avg_valid_strobe <= next_mov_avg_valid_strobe;
-            for (int i = 0; i < FILTER_SIZE; i++) begin
+            for (int i = 0; i < FILTER_SIZE; i = i+1) begin
                 shift_reg[i] <= next_shift_reg[i];
             end
         end
     end
+    
+endmodule
