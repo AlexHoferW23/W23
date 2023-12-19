@@ -1,47 +1,119 @@
 `default_nettype none
 `timescale 1ns/1ps
 
-/*
-this testbench just instantiates the module and makes some convenient wires
-that can be driven / tested by the cocotb test.py
-*/
+module tb;
+	
+    // Testbench Signals
+    reg [7:0] ui_in; // Input for the moving averager
+    wire [7:0] uo_out; // Output for the moving averager
+    reg [7:0] uio_in; // Bidirectional Input path
+    wire [7:0] uio_out; // Bidirectional Output path
+    wire [7:0] uio_oe; // Bidirectional Enable path
+    reg clk; // Clock
+    reg rst_n; // Reset (active low)
 
-// testbench is controlled by test.py
-module tb ();
+    // Instantiate the Unit Under Test (UUT)
+    tt_um_moving_average uut (
+        .ui_in(ui_in),
+        .uo_out(uo_out),
+        .uio_in(uio_in),
+        .uio_out(uio_out),
+        .uio_oe(uio_oe),
+        .clk(clk),
+        .rst_n(rst_n)
+    );
 
-    // this part dumps the trace to a vcd file that can be viewed with GTKWave
+    // Clock Generation
+    always begin
+        clk = 1; #10;
+        clk = 0; #10;
+    end
+	
     initial begin
         $dumpfile ("tb.vcd");
         $dumpvars (0, tb);
         #1;
     end
+    // Test Stimulus
+    initial begin
+        // Initialize Inputs
+        ui_in = 0;
+        uio_in = 0;
+        rst_n = 1;
 
-    // wire up the inputs and outputs
-    reg  clk;
-    reg  rst_n;
-    reg  ena;
-    reg  [7:0] ui_in;
-    reg  [7:0] uio_in;
+        // Reset the system
+        #20;
+        rst_n = 0;
+        #20;
+        rst_n = 1;
+        #40;
 
-    wire [6:0] segments = uo_out[6:0];
-    wire [7:0] uo_out;
-    wire [7:0] uio_out;
-    wire [7:0] uio_oe;
+        // Apply test data
+        uio_in[0] = 1; // Strobe signal active
+        ui_in = 8'hAA; // Test data
+        #20;
+        uio_in[0] = 0; // Strobe signal inactive
+        #20;
 
-    tt_um_moving_average tt_um_moving_average (
-    // include power ports for the Gate Level test
-    `ifdef GL_TEST
-        .VPWR( 1'b1),
-        .VGND( 1'b0),
-    `endif
-        .ui_in      (ui_in),    // Dedicated inputs
-        .uo_out     (uo_out),   // Dedicated outputs
-        .uio_in     (uio_in),   // IOs: Input path
-        .uio_out    (uio_out),  // IOs: Output path
-        .uio_oe     (uio_oe),   // IOs: Enable path (active high: 0=input, 1=output)
-        .ena        (ena),      // enable - goes high when design is selected
-        .clk        (clk),      // clock
-        .rst_n      (rst_n)     // not reset
-        );
+        // Apply next set of test data
+        uio_in[0] = 1;
+        ui_in = 8'h55;
+        #20;
+        uio_in[0] = 0;
+        #20;
+
+        // Continue with additional test data
+        uio_in[0] = 1;
+        ui_in = 8'hFF; // Full-scale value
+        #20;
+        uio_in[0] = 0;
+        #20;
+
+        uio_in[0] = 1;
+        ui_in = 8'h00; // Zero value
+        #20;
+        uio_in[0] = 0;
+        #20;
+        
+        uio_in[0] = 1;
+        ui_in = 8'hFF; // Full-scale value
+        #20;
+        uio_in[0] = 0;
+        #20;
+
+        uio_in[0] = 1;
+        ui_in = 8'h00; // Zero value
+        #20;
+        uio_in[0] = 0;
+        #20;
+
+		 uio_in[0] = 1;
+        ui_in = 8'hFF; // Full-scale value
+        #20;
+        uio_in[0] = 0;
+        #20;
+
+        uio_in[0] = 1;
+        ui_in = 8'h00; // Zero value
+        #20;
+        uio_in[0] = 0;
+        #20;
+        
+        // Finish the simulation
+        $finish;
+    end
 
 endmodule
+
+
+
+
+
+
+
+
+
+
+
+
+
