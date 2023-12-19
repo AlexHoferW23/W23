@@ -51,49 +51,89 @@ module tb;
         uio_in[0] = 1; // Strobe signal active
         ui_in = 8'h01; // Test data
         #20;
-        uio_in[0] = 0; // Strobe signal inactive
+        uio_in[0] = 0;
         #20;
 
-        // Apply next set of test data
         uio_in[0] = 1;
         ui_in = 8'h02;
         #20;
         uio_in[0] = 0;
         #20;
 
-        // Continue with additional test data
         uio_in[0] = 1;
-        ui_in = 8'h03; // Full-scale value
+        ui_in = 8'h03;
         #20;
         uio_in[0] = 0;
         #20;
 
         uio_in[0] = 1;
-        ui_in = 8'h04; // Zero value
+        ui_in = 8'h04;
         #20;
         uio_in[0] = 0;
         #20;
         
         uio_in[0] = 1;
-        ui_in = 8'h00; // Full-scale value
+        ui_in = 8'h00;
         #20;
         uio_in[0] = 0;
         #20;
 
         uio_in[0] = 1;
-        ui_in = 8'h01; // Zero value
+        ui_in = 8'h01;
         #20;
         uio_in[0] = 0;
         #20;
 
 		 uio_in[0] = 1;
-        ui_in = 8'h02; // Full-scale value
+        ui_in = 8'h02;
         #20;
         uio_in[0] = 0;
         #20;
 
         uio_in[0] = 1;
-        ui_in = 8'h03; // Zero value
+        ui_in = 8'h03; 
+        #20;
+        uio_in[0] = 0;
+        #20;
+        
+        uio_in[0] = 1;
+        ui_in = 8'h02;
+        #20;
+        uio_in[0] = 0;
+        #20;
+
+        uio_in[0] = 1;
+        ui_in = 8'h03;
+        #20;
+        uio_in[0] = 0;
+        #20;
+
+        uio_in[0] = 1;
+        ui_in = 8'h04;
+        #20;
+        uio_in[0] = 0;
+        #20;
+        
+        uio_in[0] = 1;
+        ui_in = 8'h00;
+        #20;
+        uio_in[0] = 0;
+        #20;
+
+        uio_in[0] = 1;
+        ui_in = 8'h01;
+        #20;
+        uio_in[0] = 0;
+        #20;
+
+		 uio_in[0] = 1;
+        ui_in = 8'h02;
+        #20;
+        uio_in[0] = 0;
+        #20;
+
+        uio_in[0] = 1;
+        ui_in = 8'h03; 
         #20;
         uio_in[0] = 0;
         #20;
