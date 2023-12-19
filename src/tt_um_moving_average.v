@@ -12,7 +12,7 @@ module tt_um_moving_average(
     input wire ena
 );
 
-    parameter FILTER_POWER = 2; // Example window length
+    parameter FILTER_POWER = 4; // Example window length
     localparam DATA_IN_LEN = 10;
     
     localparam FILTER_SIZE = 1 << FILTER_POWER; // Power of 2 for filter size
