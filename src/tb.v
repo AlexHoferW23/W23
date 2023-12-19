@@ -138,6 +138,260 @@ module tb;
         uio_in[0] = 0;
         #20;
         
+        
+        uio_in[0] = 1;
+        ui_in = 8'h02;
+        #20;
+        uio_in[0] = 0;
+        #20;
+
+        uio_in[0] = 1;
+        ui_in = 8'h03;
+        #20;
+        uio_in[0] = 0;
+        #20;
+
+        uio_in[0] = 1;
+        ui_in = 8'h04;
+        #20;
+        uio_in[0] = 0;
+        #20;
+        
+        uio_in[0] = 1;
+        ui_in = 8'h00;
+        #20;
+        uio_in[0] = 0;
+        #20;
+
+        uio_in[0] = 1;
+        ui_in = 8'h01;
+        #20;
+        uio_in[0] = 0;
+        #20;
+
+		 uio_in[0] = 1;
+        ui_in = 8'h02;
+        #20;
+        uio_in[0] = 0;
+        #20;
+
+        uio_in[0] = 1;
+        ui_in = 8'h03; 
+        #20;
+        uio_in[0] = 0;
+        #20;
+        
+        uio_in[0] = 1;
+        ui_in = 8'h02;
+        #20;
+        uio_in[0] = 0;
+        #20;
+
+        uio_in[0] = 1;
+        ui_in = 8'h03;
+        #20;
+        uio_in[0] = 0;
+        #20;
+
+        uio_in[0] = 1;
+        ui_in = 8'h04;
+        #20;
+        uio_in[0] = 0;
+        #20;
+        
+        uio_in[0] = 1;
+        ui_in = 8'h00;
+        #20;
+        uio_in[0] = 0;
+        #20;
+
+        uio_in[0] = 1;
+        ui_in = 8'h01;
+        #20;
+        uio_in[0] = 0;
+        #20;
+
+		 uio_in[0] = 1;
+        ui_in = 8'h02;
+        #20;
+        uio_in[0] = 0;
+        #20;
+
+        uio_in[0] = 1;
+        ui_in = 8'h03; 
+        #20;
+        uio_in[0] = 0;
+        #20;
+        
+        uio_in[0] = 1;
+        ui_in = 8'h02;
+        #20;
+        uio_in[0] = 0;
+        #20;
+
+        uio_in[0] = 1;
+        ui_in = 8'h03;
+        #20;
+        uio_in[0] = 0;
+        #20;
+
+        uio_in[0] = 1;
+        ui_in = 8'h04;
+        #20;
+        uio_in[0] = 0;
+        #20;
+        
+        uio_in[0] = 1;
+        ui_in = 8'h00;
+        #20;
+        uio_in[0] = 0;
+        #20;
+
+        uio_in[0] = 1;
+        ui_in = 8'h01;
+        #20;
+        uio_in[0] = 0;
+        #20;
+
+		 uio_in[0] = 1;
+        ui_in = 8'h02;
+        #20;
+        uio_in[0] = 0;
+        #20;
+
+        uio_in[0] = 1;
+        ui_in = 8'h03; 
+        #20;
+        uio_in[0] = 0;
+        #20;
+        
+        uio_in[0] = 1;
+        ui_in = 8'h02;
+        #20;
+        uio_in[0] = 0;
+        #20;
+
+        uio_in[0] = 1;
+        ui_in = 8'h03;
+        #20;
+        uio_in[0] = 0;
+        #20;
+
+        uio_in[0] = 1;
+        ui_in = 8'h04;
+        #20;
+        uio_in[0] = 0;
+        #20;
+        
+        uio_in[0] = 1;
+        ui_in = 8'h00;
+        #20;
+        uio_in[0] = 0;
+        #20;
+
+        uio_in[0] = 1;
+        ui_in = 8'h01;
+        #20;
+        uio_in[0] = 0;
+        #20;
+
+		 uio_in[0] = 1;
+        ui_in = 8'h02;
+        #20;
+        uio_in[0] = 0;
+        #20;
+
+        uio_in[0] = 1;
+        ui_in = 8'h03; 
+        #20;
+        uio_in[0] = 0;
+        #20;
+        
+        
+        uio_in[0] = 1;
+        ui_in = 8'h02;
+        #20;
+        uio_in[0] = 0;
+        #20;
+
+        uio_in[0] = 1;
+        ui_in = 8'h03;
+        #20;
+        uio_in[0] = 0;
+        #20;
+
+        uio_in[0] = 1;
+        ui_in = 8'h04;
+        #20;
+        uio_in[0] = 0;
+        #20;
+        
+        uio_in[0] = 1;
+        ui_in = 8'h00;
+        #20;
+        uio_in[0] = 0;
+        #20;
+
+        uio_in[0] = 1;
+        ui_in = 8'h01;
+        #20;
+        uio_in[0] = 0;
+        #20;
+
+		 uio_in[0] = 1;
+        ui_in = 8'h02;
+        #20;
+        uio_in[0] = 0;
+        #20;
+
+        uio_in[0] = 1;
+        ui_in = 8'h03; 
+        #20;
+        uio_in[0] = 0;
+        #20;
+        
+        uio_in[0] = 1;
+        ui_in = 8'h02;
+        #20;
+        uio_in[0] = 0;
+        #20;
+
+        uio_in[0] = 1;
+        ui_in = 8'h03;
+        #20;
+        uio_in[0] = 0;
+        #20;
+
+        uio_in[0] = 1;
+        ui_in = 8'h04;
+        #20;
+        uio_in[0] = 0;
+        #20;
+        
+        uio_in[0] = 1;
+        ui_in = 8'h00;
+        #20;
+        uio_in[0] = 0;
+        #20;
+
+        uio_in[0] = 1;
+        ui_in = 8'h01;
+        #20;
+        uio_in[0] = 0;
+        #20;
+
+		 uio_in[0] = 1;
+        ui_in = 8'h02;
+        #20;
+        uio_in[0] = 0;
+        #20;
+
+        uio_in[0] = 1;
+        ui_in = 8'h03; 
+        #20;
+        uio_in[0] = 0;
+        #20;
+        
         // Finish the simulation
         $finish;
     end

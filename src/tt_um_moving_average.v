@@ -12,7 +12,7 @@ module tt_um_moving_average(
     input wire ena
 );
 
-    parameter FILTER_POWER = 2; // Example window length
+    parameter FILTER_POWER = 3; // Example window length
     localparam DATA_IN_LEN = 8;
     localparam FILTER_SIZE = 1 << FILTER_POWER; // Power of 2 for filter size
     localparam SUM_WIDTH = DATA_IN_LEN + FILTER_POWER; // Adjusted sum width
@@ -99,15 +99,11 @@ module tt_um_moving_average(
         endcase
     end
 	
-    assign uo_out = avg_sum; //assign output of the filter
-    assign uio_oe[1] = 1'b1;   
+    assign uo_out = avg_sum; //assign output of the filter 
     assign uio_out[1] = (state == AVERAGE) ? 1'b1 : 1'b0; // Strobe output 
-    
-     // Assign default values to unused bits of uio_out and uio_oe
+    assign uio_oe[1] = 1'b1;  
      
-    assign uio_out[7:2] = 6'bz;  // High-impedance for unused output bits
-    assign uio_out[0] = 1'bz;    // High-impedance for unused output bit
-    
-    assign uio_oe[7:2] = 6'b0;   // Configure unused pins as inputs
+    assign uio_out[7:2] = 6'bz;  // High-impedance
+    assign uio_oe[7:2] = 6'b1;   // Configure unused pins as output
      
 endmodule
