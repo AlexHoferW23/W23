@@ -12,17 +12,57 @@ module tt_um_moving_average(
     input wire ena
 );
 
-    parameter FILTER_POWER = 4; // Example window length
-    localparam DATA_IN_LEN = 8;
+    parameter FILTER_POWER = 2; // Example window length
+    localparam DATA_IN_LEN = 10;
+    
     localparam FILTER_SIZE = 1 << FILTER_POWER; // Power of 2 for filter size
     localparam SUM_WIDTH = DATA_IN_LEN + FILTER_POWER; // Adjusted sum width
     localparam PAD_WIDTH = SUM_WIDTH - DATA_IN_LEN; // Padding
-
+	
+	//invert reset
     wire reset = !rst_n;
-    wire [DATA_IN_LEN - 1:0] data_i = ui_in; 
+    
+    // (2 + 8)bits from uio_in[3:2] and ui_in
+    wire [DATA_IN_LEN - 1:0] data_i = {uio_in[3:2], ui_in};
     wire strobe_i = uio_in[0];
-    assign uio_oe[0] = 1'b0;   
+    
+    // uio_oe configuration
+    assign uio_oe[0] = 1'b0;    // Strobe input set as input
+    assign uio_oe[1] = 1'b1;    // Strobe output set as output
+    assign uio_oe[3:2] = 2'b00; // Additional input bits for data
+    assign uio_oe[5:4] = 2'b11; // Additional output bits for data
+    assign uio_oe[7:6] = 2'b00; // Unused pins set as inputs
 
+    // uio_out configuration
+    assign {uio_out[5:4], uo_out} = avg_sum; // 10-bit output split between uo_out and uio_out[5:4]
+    assign uio_out[1] = (state == AVERAGE) ? 1'b1 : 1'b0; // Strobe output
+    assign uio_out[7:6] = 2'bz;  // High-impedance for unused output bits
+    assign uio_out[3:2] = 2'bz;  // High-impedance for unused output bits
+    assign uio_out[0] = 1'bz;    // High-impedance for unused output bit
+
+
+    
+    // uio_oe and uio_out pin usage:
+    // uio_oe[0] - Strobe input (configured as input)
+    // uio_oe[1] - Unused (configured as input)
+    // uio_oe[2] - Unused (configured as input)
+    // uio_oe[3] - Unused (configured as input)
+    // uio_oe[4] - Additional output bit (configured as output)
+    // uio_oe[5] - Additional output bit (configured as output)
+    // uio_oe[6] - Unused (configured as input)
+    // uio_oe[7] - Unused (configured as input)
+
+    // uio_out[0] - High impedance (unused output bit)
+    // uio_out[1] - Strobe output
+    // uio_out[2] - High impedance (unused output bit)
+    // uio_out[3] - High impedance (unused output bit)
+    // uio_out[4] - Additional output bit (part of 10-bit output)
+    // uio_out[5] - Additional output bit (part of 10-bit output)
+    // uio_out[6] - High impedance (unused output bit)
+    // uio_out[7] - High impedance (unused output bit)
+    
+    
+    
     // FSM states
     reg [1:0] state, next_state;
     localparam WAIT_FOR_STROBE = 2'b00;
@@ -99,13 +139,5 @@ module tt_um_moving_average(
         endcase
     end
 	
-    assign uo_out = avg_sum; //assign output of the filter
-    assign uio_oe[1] = 1'b1; 
-    assign uio_out[1] = (state == AVERAGE) ? 1'b1 : 1'b0; // Strobe output 
-    
-     
-    assign uio_out[7:2] = 6'bz;  // High-impedance
-    assign uio_oe[7:2] = 6'b0;   // Configure unused pins as input
-    assign uio_out[0] = 1'bz;	 //Unused
      
 endmodule
