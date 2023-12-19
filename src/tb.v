@@ -4,13 +4,13 @@
 module tb;
 	
     // Testbench Signals
-    reg [7:0] ui_in; // Input for the moving averager
+    reg [7:0] ui_in = 0; // Input for the moving averager
     wire [7:0] uo_out; // Output for the moving averager
     reg [7:0] uio_in; // Bidirectional Input path
     wire [7:0] uio_out; // Bidirectional Output path
     wire [7:0] uio_oe; // Bidirectional Enable path
-    reg clk; // Clock
-    reg rst_n; // Reset (active low)
+    reg clk = 0; // Clock
+    reg rst_n = 1; // Reset (active low)
 	reg ena; //enable
 	
     // Instantiate the Unit Under Test (UUT)
@@ -26,10 +26,7 @@ module tb;
     );
 
     // Clock Generation
-    always begin
-        clk = 1; #10;
-        clk = 0; #10;
-    end
+    always #10 clk = ~clk;
 	
     initial begin
         $dumpfile ("tb.vcd");

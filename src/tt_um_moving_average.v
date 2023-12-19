@@ -101,5 +101,13 @@ module tt_um_moving_average(
 	
     assign uo_out = avg_sum; //assign output of the filter
     assign uio_oe[1] = 1'b1;   
-    assign uio_out[1] = (state == AVERAGE) ? 1'b1 : 1'b0; // Strobe output  
+    assign uio_out[1] = (state == AVERAGE) ? 1'b1 : 1'b0; // Strobe output 
+    
+     // Assign default values to unused bits of uio_out and uio_oe
+     
+    assign uio_out[7:2] = 6'bz;  // High-impedance for unused output bits
+    assign uio_out[0] = 1'bz;    // High-impedance for unused output bit
+    
+    assign uio_oe[7:2] = 6'b0;   // Configure unused pins as inputs
+     
 endmodule
