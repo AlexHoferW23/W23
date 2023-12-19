@@ -11,7 +11,8 @@ module tb;
     wire [7:0] uio_oe; // Bidirectional Enable path
     reg clk; // Clock
     reg rst_n; // Reset (active low)
-
+	reg ena; //enable
+	
     // Instantiate the Unit Under Test (UUT)
     tt_um_moving_average uut (
         .ui_in(ui_in),
@@ -20,7 +21,8 @@ module tb;
         .uio_out(uio_out),
         .uio_oe(uio_oe),
         .clk(clk),
-        .rst_n(rst_n)
+        .rst_n(rst_n),
+        .ena(ena)
     );
 
     // Clock Generation
@@ -50,51 +52,51 @@ module tb;
 
         // Apply test data
         uio_in[0] = 1; // Strobe signal active
-        ui_in = 8'hAA; // Test data
+        ui_in = 8'h01; // Test data
         #20;
         uio_in[0] = 0; // Strobe signal inactive
         #20;
 
         // Apply next set of test data
         uio_in[0] = 1;
-        ui_in = 8'h55;
+        ui_in = 8'h02;
         #20;
         uio_in[0] = 0;
         #20;
 
         // Continue with additional test data
         uio_in[0] = 1;
-        ui_in = 8'hFF; // Full-scale value
+        ui_in = 8'h03; // Full-scale value
         #20;
         uio_in[0] = 0;
         #20;
 
         uio_in[0] = 1;
-        ui_in = 8'h00; // Zero value
+        ui_in = 8'h04; // Zero value
         #20;
         uio_in[0] = 0;
         #20;
         
         uio_in[0] = 1;
-        ui_in = 8'hFF; // Full-scale value
+        ui_in = 8'h00; // Full-scale value
         #20;
         uio_in[0] = 0;
         #20;
 
         uio_in[0] = 1;
-        ui_in = 8'h00; // Zero value
+        ui_in = 8'h01; // Zero value
         #20;
         uio_in[0] = 0;
         #20;
 
 		 uio_in[0] = 1;
-        ui_in = 8'hFF; // Full-scale value
+        ui_in = 8'h02; // Full-scale value
         #20;
         uio_in[0] = 0;
         #20;
 
         uio_in[0] = 1;
-        ui_in = 8'h00; // Zero value
+        ui_in = 8'h03; // Zero value
         #20;
         uio_in[0] = 0;
         #20;

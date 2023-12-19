@@ -8,7 +8,7 @@ module tt_um_moving_average(
     output wire [7:0] uio_out, // IOs: Bidirectional Output path
     output wire [7:0] uio_oe,  // IOs: Bidirectional Enable path (active high: 0=input, 1=output)
     input wire clk,            // Clock
-    input wire rst_n           // Reset (active low)
+    input wire rst_n,           // Reset (active low)
     input wire ena
 );
 
