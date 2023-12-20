@@ -55,8 +55,8 @@ module tb;
         perform_test();
 
         // Test for Filter Size 16
-        filter_select = 2'b11;
-        perform_test();
+        //filter_select = 2'b11;
+        //perform_test();
 
         // Finish the simulation
         $finish;

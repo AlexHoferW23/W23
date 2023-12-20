@@ -31,7 +31,7 @@ module tt_um_moving_average_master(
         .clk(clk),
         .reset(reset)
     );
-	`ifdef INCLUDE_FILTER_8
+
     // Filter with window length 4
     tt_um_moving_average #(.FILTER_POWER(2), .DATA_IN_LEN(10)) filter_4 (
         .data_in(data_i),
@@ -41,9 +41,9 @@ module tt_um_moving_average_master(
         .clk(clk),
         .reset(reset)
     );
-    `endif
+
     
-    `ifdef INCLUDE_FILTER_8
+
     tt_um_moving_average #(.FILTER_POWER(3), .DATA_IN_LEN(10)) filter_8 (
         .data_in(data_i),
         .data_out(filter_out_8),
@@ -52,17 +52,17 @@ module tt_um_moving_average_master(
         .clk(clk),
         .reset(reset)
     );
-    `endif
+
 
     // Filter with window length 16
-    tt_um_moving_average #(.FILTER_POWER(4), .DATA_IN_LEN(10)) filter_16 (
+  /*  tt_um_moving_average #(.FILTER_POWER(4), .DATA_IN_LEN(10)) filter_16 (
         .data_in(data_i),
         .data_out(filter_out_16),
         .strobe_in(strobe_i),
         .strobe_out(strobe_out_16),
         .clk(clk),
         .reset(reset)
-    );
+    );*/
 
     // Multiplexer for selecting output based on filter_select
     reg [9:0] selected_filter_out;
@@ -81,35 +81,24 @@ module tt_um_moving_average_master(
 		            selected_strobe_out <= strobe_out_2;
 		        end
 		        
-		        2'b01: `ifdef INCLUDE_FILTER_8
+		        2'b01: 
 		            begin
 		                selected_filter_out <= filter_out_4;
 		                selected_strobe_out <= strobe_out_4;
 		            end
-		            `else
-		            begin
-		                selected_filter_out <= 0;
-		                selected_strobe_out <= 0;
-		            end
-		            `endif
+
 		        
-		        2'b10: 
-		            `ifdef INCLUDE_FILTER_8
-		            begin
-		                selected_filter_out <= filter_out_8;
-		                selected_strobe_out <= strobe_out_8;
-		            end
-		            `else
-		            begin
-		                selected_filter_out <= 0;
-		                selected_strobe_out <= 0;
-		            end
-		            `endif
+		        2'b10: 	       
+					begin
+						selected_filter_out <= filter_out_8;
+						selected_strobe_out <= strobe_out_8;
+					end
+
 		            
-		        2'b11: begin
-		            selected_filter_out <= filter_out_16;
-		            selected_strobe_out <= strobe_out_16;
-		        end
+		        //2'b11: begin
+		        //   selected_filter_out <= filter_out_16;
+		        //   selected_strobe_out <= strobe_out_16;
+		        //end
 		        
 		        default: begin
 		            selected_filter_out <= 0;
