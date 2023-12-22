@@ -31,6 +31,8 @@ module tb;
 
     // Clock Generation
     always #10 clk = ~clk;
+    
+    always # 500 strobe_in =~ strobe_in;
 
     initial begin
         $dumpfile ("tb.vcd");
@@ -43,33 +45,14 @@ module tb;
         #40;
 
         // Test for Filter Size 2
-        filter_select = 2'b00;
-        perform_test();
-
-        // Test for Filter Size 4
-        filter_select = 2'b01;
-        perform_test();
-
-        // Test for Filter Size 8
-        filter_select = 2'b10;
-        perform_test();
-
-        // Test for Filter Size 16
-        //filter_select = 2'b11;
-        //perform_test();
-
+        filter_select = 2'b00;	
+        data_in = 0;
+        #20000
+        data_in = 1023;
+        #20000;
         // Finish the simulation
         $finish;
     end
-
-    task perform_test;
-        for (integer i = 0; i < 1023; i++) begin
-            data_in = i; // Generate 10-bit test data
-            strobe_in = 1; // Strobe signal active
-            #20;
-            strobe_in = 0; // Strobe signal inactive
-            #20;
-        end
-    endtask
+   
 endmodule
 

@@ -45,31 +45,28 @@ module tb;
         // Test for Filter Size 2
         filter_select = 2'b00;
         perform_test();
-
-        // Test for Filter Size 4
-        filter_select = 2'b01;
-        perform_test();
-
-        // Test for Filter Size 8
-        filter_select = 2'b10;
-        perform_test();
-
-        // Test for Filter Size 16
-        //filter_select = 2'b11;
-        //perform_test();
+		#1000;
 
         // Finish the simulation
         $finish;
     end
 
     task perform_test;
-        for (integer i = 0; i < 1023; i++) begin
-            data_in = i; // Generate 10-bit test data
-            strobe_in = 1; // Strobe signal active
-            #20;
-            strobe_in = 0; // Strobe signal inactive
-            #20;
-        end
+        for (integer i = 0; i < 50; i++) begin
+            if (i == 10) begin
+            	data_in = 1023;
+		        strobe_in = 1; // Strobe signal active
+		        #20;
+		        strobe_in = 0; // Strobe signal inactive
+		        #20;
+		    end else begin
+		        data_in = 0; // Generate 10-bit test data
+		        strobe_in = 1; // Strobe signal active
+		        #20;
+		        strobe_in = 0; // Strobe signal inactive
+		        #20;
+            end
+	    end
     endtask
 endmodule
 

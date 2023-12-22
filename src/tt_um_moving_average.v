@@ -54,7 +54,7 @@ module tt_um_moving_average #(
     end
 	
     // FSM
-    always @(state, sum, avg_sum, counter_value, strobe_in) begin
+    always @(*) begin
         next_state <= state;
         for (integer i = 0; i < FILTER_SIZE; i = i + 1) begin
             next_shift_reg[i] <= shift_reg[i];
@@ -97,4 +97,3 @@ module tt_um_moving_average #(
     assign strobe_out = (state == AVERAGE) ? 1'b1 : 1'b0;
 
 endmodule
-
