@@ -19,8 +19,8 @@ module tt_um_moving_average_master(
     wire [1:0] filter_select = uio_in[7:6]; // Filter width control
 
     // Filter instantiations
-    wire [DATA_IN_LEN - 1 :0] filter_out_2, filter_out_4, filter_out_8, filter_out_16;
-    wire strobe_out_2, strobe_out_4, strobe_out_8, strobe_out_16;
+    wire [DATA_IN_LEN - 1 :0] filter_out_2, filter_out_4, filter_out_8, filter_out_8_extra;
+    wire strobe_out_2, strobe_out_4, strobe_out_8, strobe_out_8_extra;
 
     // Filter with window length 2
     tt_um_moving_average #(.FILTER_POWER(1), .DATA_IN_LEN(10)) filter_2 (
@@ -53,15 +53,15 @@ module tt_um_moving_average_master(
         .reset(reset)
     );
 
-    // Filter with window length 16
-  /*  tt_um_moving_average #(.FILTER_POWER(4), .DATA_IN_LEN(10)) filter_16 (
-        .data_in(data_i),
-        .data_out(filter_out_16),
-        .strobe_in(strobe_i),
-        .strobe_out(strobe_out_16),
+    // Additional filter (2-length) after 8-length filter
+    tt_um_moving_average #(.FILTER_POWER(1), .DATA_IN_LEN(10)) filter_8_extra (
+        .data_in(filter_out_8),
+        .data_out(filter_out_8_extra),
+        .strobe_in(strobe_out_8),
+        .strobe_out(strobe_out_8_extra),
         .clk(clk),
         .reset(reset)
-    );*/
+    );
 
     // Multiplexer for selecting output based on filter_select
     reg [9:0] selected_filter_out;
@@ -94,10 +94,10 @@ module tt_um_moving_average_master(
 					end
 
 		            
-		        //2'b11: begin
-		        //   selected_filter_out <= filter_out_16;
-		        //   selected_strobe_out <= strobe_out_16;
-		        //end
+				2'b11: begin
+					selected_filter_out <= filter_out_8_extra;
+					selected_strobe_out <= strobe_out_8_extra;
+				end
 		        
 		        default: begin
 		            selected_filter_out <= 0;
