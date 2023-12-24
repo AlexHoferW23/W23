@@ -34,61 +34,61 @@ module tt_um_moving_average #(
     // Main FSM logic
     always @(posedge clk or posedge reset) begin
         if (reset) begin
-            counter_value <= 0;
-            state <= WAIT_FOR_STROBE;
-            sum <= 0;
-            avg_sum <= 0;
+            counter_value = 0;
+            state = WAIT_FOR_STROBE;
+            sum = 0;
+            avg_sum = 0;
             for (integer i = 0; i < FILTER_SIZE; i = i + 1) begin
-                shift_reg[i] <= 0;
+                shift_reg[i] = 0;
             end
         end else begin
-            counter_value <= next_counter_value;
-            state <= next_state;
-            sum <= next_sum;
-            avg_sum <= next_avg_sum;
+            counter_value = next_counter_value;
+            state = next_state;
+            sum = next_sum;
+            avg_sum = next_avg_sum;
             for (integer i = 0; i < FILTER_SIZE; i = i + 1) begin
-                shift_reg[i] <= next_shift_reg[i];
+                shift_reg[i] = next_shift_reg[i];
             end
         end
     end
 	
     // FSM
     always @(*) begin
-        next_state <= state;
+        next_state = state;
         for (integer i = 0; i < FILTER_SIZE; i = i + 1) begin
-            next_shift_reg[i] <= shift_reg[i];
+            next_shift_reg[i] = shift_reg[i];
         end
-        next_sum <= sum;
-        next_avg_sum <= avg_sum;
-        next_counter_value <= counter_value;
+        next_sum = sum;
+        next_avg_sum = avg_sum;
+        next_counter_value = counter_value;
 		
         case(state) 
             WAIT_FOR_STROBE: begin
                 if (strobe_in) begin
-                    next_sum <= {{PAD_WIDTH{1'b0}}, data_in}; //zero padding
-                    next_state <= ADD;
+                    next_sum = {{PAD_WIDTH{1'b0}}, data_in}; //zero padding
+                    next_state = ADD;
                 end
             end
 			
             ADD: begin
                 if (counter_value == FILTER_SIZE - 1) begin
-                    next_counter_value <= 0;
-                    next_state <= AVERAGE;
+                    next_counter_value = 0;
+                    next_state = AVERAGE;
                 end else begin
-                    next_sum <= sum + {{PAD_WIDTH{1'b0}}, shift_reg[counter_value]};
-                    next_counter_value <= counter_value + 1'b1;
+                    next_sum = sum + {{PAD_WIDTH{1'b0}}, shift_reg[counter_value]};
+                    next_counter_value = counter_value + 1'b1;
                 end
             end
 			
             AVERAGE: begin
-                next_shift_reg[0] <= data_in;
+                next_shift_reg[0] = data_in;
                 for (integer i = 1; i < FILTER_SIZE; i = i + 1) begin
-                    next_shift_reg[i] <= shift_reg[i - 1];
+                    next_shift_reg[i] = shift_reg[i - 1];
                 end
-                next_avg_sum <= sum[SUM_WIDTH-1:FILTER_POWER];
-                next_state <= WAIT_FOR_STROBE;
+                next_avg_sum = sum[SUM_WIDTH-1:FILTER_POWER];
+                next_state = WAIT_FOR_STROBE;
             end
-            default: next_state <= WAIT_FOR_STROBE;
+            default: next_state = WAIT_FOR_STROBE;
         endcase
     end
 

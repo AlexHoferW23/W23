@@ -69,38 +69,38 @@ module tt_um_moving_average_master(
 	// Multiplexer for selecting output based on filter_select
 	always @(posedge clk) begin
 		if (reset) begin
-		    selected_filter_out <= 0;
-		    selected_strobe_out <= 0;
+		    selected_filter_out = 0;
+		    selected_strobe_out = 0;
 		end else begin
 		    case(filter_select)
 		    
 		        2'b00: begin
-		            selected_filter_out <= filter_out_2;
-		            selected_strobe_out <= strobe_out_2;
+		            selected_filter_out = filter_out_2;
+		            selected_strobe_out = strobe_out_2;
 		        end
 		        
 		        2'b01: 
 		            begin
-		                selected_filter_out <= filter_out_4;
-		                selected_strobe_out <= strobe_out_4;
+		                selected_filter_out = filter_out_4;
+		                selected_strobe_out = strobe_out_4;
 		            end
 
 		        
 		        2'b10: 	       
 					begin
-						selected_filter_out <= filter_out_8;
-						selected_strobe_out <= strobe_out_8;
+						selected_filter_out = filter_out_8;
+						selected_strobe_out = strobe_out_8;
 					end
 
 		            
 				2'b11: begin
-					selected_filter_out <= filter_out_8_extra;
-					selected_strobe_out <= strobe_out_8_extra;
+					selected_filter_out = filter_out_8_extra;
+					selected_strobe_out = strobe_out_8_extra;
 				end
 		        
 		        default: begin
-		            selected_filter_out <= 0;
-		            selected_strobe_out <= 0;
+		            selected_filter_out = 0;
+		            selected_strobe_out = 0;
 		        end
 		    endcase
 		end
