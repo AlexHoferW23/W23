@@ -70,7 +70,7 @@ module tb;
         #40;
 
         // Apply the sine wave to the filter and write output to file
-        filter_select = 2'b01;	
+        filter_select = 2'b10;	
         for (i = 0; i < 1000; i = i + 1) begin
             data_in = sine_wave[i];
             #500; // Reduced delay to capture more frequent output data
