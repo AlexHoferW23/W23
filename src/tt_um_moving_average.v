@@ -34,20 +34,20 @@ module tt_um_moving_average #(
     // Main FSM logic
     always @(posedge clk or posedge reset) begin
         if (reset) begin
-            counter_value = 0;
-            state = WAIT_FOR_STROBE;
-            sum = 0;
-            avg_sum = 0;
+            counter_value <= 0;
+            state <= WAIT_FOR_STROBE;
+            sum <= 0;
+            avg_sum <= 0;
             for (integer i = 0; i < FILTER_SIZE; i = i + 1) begin
-                shift_reg[i] = 0;
+		    shift_reg[i] <= 0;
             end
         end else begin
-            counter_value = next_counter_value;
-            state = next_state;
-            sum = next_sum;
-            avg_sum = next_avg_sum;
+            counter_value <= next_counter_value;
+            state <= next_state;
+            sum <= next_sum;
+            avg_sum <= next_avg_sum;
             for (integer i = 0; i < FILTER_SIZE; i = i + 1) begin
-                shift_reg[i] = next_shift_reg[i];
+		    shift_reg[i] <= next_shift_reg[i];
             end
         end
     end
