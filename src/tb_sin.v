@@ -1,4 +1,4 @@
-`timescale 1ns/1ps
+`timescale 1ns / 1ps
 
 module tb;
     // Testbench Signals
@@ -13,10 +13,30 @@ module tb;
 
     integer i;
     integer input_file, output_file;
-    reg [9:0] sine_wave[0:999]; // Array size for 1000 data points
+    integer scan_result;  // Variable to store the result of $fscanf
+    reg [9:0] sine_wave[0:999];  // Array size for 1000 data points
+
+   wire [7:0] uio_out_wire; // Wire for uio_out port
 
     // Instantiate the Unit Under Test (UUT)
-    // ... [UUT instantiation] ...
+    tt_um_moving_average_master uut (
+        .ui_in(data_in[7:0]),
+        .uo_out(data_out[7:0]),
+        .uio_in({filter_select, 2'b00, data_in[9:8], 1'b0, strobe_in}),
+        .uio_out(uio_out_wire),
+        .uio_oe(),
+        .clk(clk),
+        .rst_n(rst_n),
+        .ena(ena)
+    );
+
+    // Assign the data_out upper bits and strobe_out from the uio_out wire
+    assign {data_out[9:8], strobe_out} = {uio_out_wire[5:4], uio_out_wire[1]};
+
+    // Clock Generation
+    always #10 clk = ~clk;
+    
+    always # 500 strobe_in =~ strobe_in;
 
     initial begin
         $dumpfile("tb.vcd");
@@ -27,9 +47,15 @@ module tb;
         // Open a file for writing the output data
         output_file = $fopen("data_out.txt", "w");
 
-        if (input_file) {
+        if (input_file) begin
             for (i = 0; i < 1000; i = i + 1) begin
-                $fscanf(input_file, "%d\n", sine_wave[i]);
+                scan_result = $fscanf(input_file, "%d\n", sine_wave[i]);
+                // Check if the reading is successful
+                if (scan_result != 1) begin
+                    $display("Error reading sine_wave_input.txt at line %d", i+1);
+                    $fclose(input_file);
+                    $finish;
+                end
             end
             $fclose(input_file);
         end else begin
@@ -44,7 +70,7 @@ module tb;
         #40;
 
         // Apply the sine wave to the filter and write output to file
-        filter_select = 2'b10;	
+        filter_select = 2'b00;	
         for (i = 0; i < 1000; i = i + 1) begin
             data_in = sine_wave[i];
             #20; // Time delay for your simulation
@@ -56,3 +82,4 @@ module tb;
         $finish; // Finish the simulation
     end
 endmodule
+
