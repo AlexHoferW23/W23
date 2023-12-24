@@ -14,7 +14,7 @@ module tb;
     integer i;
     integer input_file, output_file;
     integer scan_result;  // Variable to store the result of $fscanf
-    reg [9:0] sine_wave[0:1499];  // Array size for 1000 data points
+    reg [9:0] sine_wave[0:9999];  // Array size for 1000 data points
 
    wire [7:0] uio_out_wire; // Wire for uio_out port
 
@@ -43,12 +43,12 @@ module tb;
         $dumpvars(0, tb);
 
         // Open the file with sine wave data for reading
-        input_file = $fopen("sine_wave_input.txt", "r");
+        input_file = $fopen("sin_with_noise.txt", "r");
         // Open a file for writing the output data
-        output_file = $fopen("data_out.txt", "w");
+        output_file = $fopen("sin_with_noise_out.txt", "w");
 
         if (input_file) begin
-            for (i = 0; i < 1500; i = i + 1) begin
+            for (i = 0; i < 10000; i = i + 1) begin
                 scan_result = $fscanf(input_file, "%d\n", sine_wave[i]);
                 // Check if the reading is successful
                 if (scan_result != 1) begin
@@ -70,8 +70,8 @@ module tb;
         #40;
 
         // Apply the sine wave to the filter and write output to file
-        filter_select = 2'b01;	
-        for (i = 0; i < 1500; i = i + 1) begin
+        filter_select = 2'b10;	
+        for (i = 0; i < 10000; i = i + 1) begin
             data_in = sine_wave[i];
             #500; // Reduced delay to capture more frequent output data
         end
