@@ -36,7 +36,7 @@ module tb;
     // Clock Generation
     always #10 clk = ~clk;
     
-    always # 500 strobe_in =~ strobe_in;
+    always # 250 strobe_in =~ strobe_in;
 
     initial begin
         $dumpfile("tb.vcd");
@@ -73,7 +73,7 @@ module tb;
         filter_select = 2'b01;	
         for (i = 0; i < 1000; i = i + 1) begin
             data_in = sine_wave[i];
-            #1000; // Reduced delay to capture more frequent output data
+            #500; // Reduced delay to capture more frequent output data
         end
 
         #1000; // Additional delay to capture last changes in output
