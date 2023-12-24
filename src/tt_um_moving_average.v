@@ -1,5 +1,4 @@
 `default_nettype none
-`timescale 1ns/1ps
 
 module tt_um_moving_average #(
     parameter FILTER_POWER = 2,  // Window length as a power of 2
