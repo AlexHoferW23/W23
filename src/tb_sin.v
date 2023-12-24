@@ -70,16 +70,23 @@ module tb;
         #40;
 
         // Apply the sine wave to the filter and write output to file
-        filter_select = 2'b00;	
+        filter_select = 2'b01;	
         for (i = 0; i < 1000; i = i + 1) begin
             data_in = sine_wave[i];
-            #20; // Time delay for your simulation
-            // Write the output data to the file
-            $fwrite(output_file, "%d\n", data_out);
+            #1000; // Reduced delay to capture more frequent output data
         end
 
+        #1000; // Additional delay to capture last changes in output
         $fclose(output_file); // Close the output file
         $finish; // Finish the simulation
     end
+    
+        // Capture data_out and strobe_out changes
+    always @(posedge clk) begin
+        if (strobe_out) begin
+            $fwrite(output_file, "%t, %d, %d\n", $time, data_in, data_out);
+        end
+    end
+    
 endmodule
 
