@@ -16,70 +16,40 @@ project:
 # Keep a track of the submission yaml
 yaml_version: 4
 
-# As everyone will have access to all designs, try to make it easy for someone new to your design to know what
-# it does and how to operate it. This info will be automatically collected and used to make a datasheet for the chip.
-#
-# Here is a great example: https://github.com/davidsiaw/tt02-davidsiaw-stackcalc/blob/38c5647f83aad2aec675d566aa3d67b98f0aac81/info.yaml
 documentation: 
-  author:       "Alexander Hofer"      # Your name
-  title:        "Moving Average Filter"      # Project title
-  language:     "Verilog" # other examples include Verilog, Amaranth, VHDL, etc
-  description:  "10 bit moving average filter"      # Short description of what your project does
+  author:       "Alexander Hofer"
+  title:        "Moving Average Filter"
+  language:     "Verilog"
+  description:  "10-bit moving average filter designed to smooth input data streams."
 
-# Longer description of how the project works. You can use standard markdown format.
   how_it_works: |
-      Uses a set of registers to divide the clock, and then some combinational logic
-      to convert from binary to decimal for the display.
+      The design implements a moving average filter using a series of registers and a finite state machine (FSM). 
+      The filter calculates the average of a set of recent values in a data stream, determined by the FILTER_POWER parameter. 
+      This smooths out short-term fluctuations and highlights longer-term trends or cycles.
 
-      Puts the bottom 8 bits of the counter on the bidirectional outputs.
+      The master module handles input and output processing, including bidirectional IO handling and filter selection based on input control signals.
 
-      With all the inputs set to 0, the internal 24 bit compare is set to 10,000,000. This means the
-      counter will increment by one each second.
-
-      If any inputs are non zero, then the input will be used as an bits 11 to 18 of the 24 bit compare register.
-      Example: setting the inputs to 00010000 will program 16384 into the compare register.
-      With a 10MHz clock the counter will increment ~610 times per second.
-
-# Instructions on how someone could test your project, include things like what buttons do what and how to set the clock if needed
   how_to_test:  |
-      After reset, the counter should increase by one every second with a 10MHz input clock.
-      Experiment by changing the inputs to change the counting speed.
+      To test the moving average filter, provide a series of digital input values to the 'ui_in' port and observe the smoothed output on 'uo_out'. 
+      The 'uio_in' can be used to control the filter's width and operational parameters. 
+      Test with varying input patterns and filter widths to evaluate the filter's response.
 
-# A description of what the inputs do (e.g. red button, SPI CLK, SPI MOSI, etc).
   inputs:               
-    - compare bit 11
-    - compare bit 12
-    - compare bit 13
-    - compare bit 14
-    - compare bit 15
-    - compare bit 16
-    - compare bit 17
-    - compare bit 18
-# A description of what the outputs do (e.g. status LED, SPI MISO, etc)
-  outputs:
-    - segment a
-    - segment b
-    - segment c
-    - segment d
-    - segment e
-    - segment f
-    - segment g
-    - dot
-# A description of what the bidirectional I/O pins do (e.g. I2C SDA, I2C SCL, etc)
-  bidirectional:
-    - second counter bit 0
-    - second counter bit 1
-    - second counter bit 2
-    - second counter bit 3
-    - second counter bit 4
-    - second counter bit 5
-    - second counter bit 6
-    - second counter bit 7
+    - "ui_in: Primary 8-bit digital input for the moving average filter."
+    - "filter_select: Control bits to select filter width (part of uio_in)."
+    - "strobe_i: Strobe input for synchronization (part of uio_in)."
 
-# The following fields are optional
-  tag:          "timer, test"      # comma separated list of tags: test, encryption, experiment, clock, animation, utility, industrial, pwm, fpga, alu, microprocessor, risc, riscv, sensor, signal generator, fft, filter, music, bcd, sound, serial, timer, random number generator, calculator, decoder, counter, puzzle, multiplier, game, oscillator,
-  external_hw:  ""      # Describe any external hardware needed
-  discord:      ""      # Your discord handle, used for communication and automatically assigning tapeout role after a submission
-  doc_link:     ""      # URL to longer form documentation, eg the README.md in your repository
-  clock_hz:     10000000       # Clock frequency in Hz (if required)
-  picture:      ""      # relative path to a picture in your repository (must be 512kb or less)
+  outputs:
+    - "uo_out: 8-bit output presenting the moving average result."
+    - "strobe_out: Strobe output indicating data validity."
+
+  bidirectional:
+    - "uio_in: 8-bit bidirectional port for additional controls and data."
+    - "uio_out: 8-bit bidirectional port for status and auxiliary outputs."
+
+  tag:          "filter, digital signal processing"
+  external_hw:  ""
+  discord:      ""
+  doc_link:     ""
+  clock_hz:     10000000       # Clock frequency in Hz
+  picture:      ""
