@@ -13,12 +13,12 @@ module tb;
 
     integer i;
     integer input_file, output_file;
-    integer scan_result;  // Variable to store the result of $fscanf
-    reg [9:0] sine_wave[0:1499];  // Array size for 1000 data points
+    integer scan_result;
+    reg [9:0] sine_wave[0:1499]; 
 
    wire [7:0] uio_out_wire; // Wire for uio_out port
 
-    // Instantiate the Unit Under Test (UUT)
+    //(UUT)
     tt_um_moving_average_master uut (
         .ui_in(data_in[7:0]),
         .uo_out(data_out[7:0]),
@@ -30,7 +30,6 @@ module tb;
         .ena(ena)
     );
 
-    // Assign the data_out upper bits and strobe_out from the uio_out wire
     assign {data_out[9:8], strobe_out} = {uio_out_wire[5:4], uio_out_wire[1]};
 
     // Clock Generation
@@ -69,19 +68,18 @@ module tb;
         rst_n = 1;
         #40;
 
-        // Apply the sine wave to the filter and write output to file
         filter_select = 2'b01;	
         for (i = 0; i < 1500; i = i + 1) begin
             data_in = sine_wave[i];
-            #500; // Reduced delay to capture more frequent output data
+            #500;
         end
 
-        #1000; // Additional delay to capture last changes in output
-        $fclose(output_file); // Close the output file
-        $finish; // Finish the simulation
+        #1000; 
+        $fclose(output_file);
+        $finish;
     end
     
-        // Capture data_out and strobe_out changes
+        // Capture data_out when strobe_out changes
     always @(posedge clk) begin
         if (strobe_out) begin
             $fwrite(output_file, "%t, %d, %d\n", $time, data_in, data_out);
